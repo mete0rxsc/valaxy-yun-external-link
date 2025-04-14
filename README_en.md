@@ -98,5 +98,5 @@
 
 
 ### Issue Reporting  
-For any issues, please submit an issue or contact the author via email: <p><a :href="`mailto:Mete0r_xsc@hotmail.com`">Contact Me</a></p>.  
+For any issues, please submit an issue or contact the author via email: Mete0r_xsc@hotmail.com.  
 Alternatively, visit the website for support: [https://www.xscnas.top](https://www.xscnas.top).

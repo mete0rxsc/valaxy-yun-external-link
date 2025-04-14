@@ -22,7 +22,7 @@
 
 
 > [!TIP]
-> 如果放入`components`和`layouts`文件插件并未加载或进入首页报错,请将`components`和`layouts`内的文件删除
+> 如果放入`components`和`layouts`文件插件并未加载或进入首页报错,请将`components`和`layouts`内的文件删除  
 > 将`node_modules`文件放入Valaxy主题根目录内
 
 
@@ -43,8 +43,8 @@
 ### 修改建议
 
 1. 如果你想要修改中转页面的背景颜色，请修改
-`public/external-link.html`文件中的`<body>`标签的`style`属性中的`background-color`值 和
-`public/external-link.html`文件中第171-197行的对应值
+`public/external-link.html`文件中的`<body>`标签的`style`属性中的`background-color`值 和  
+`public/external-link.html`文件中第171-197行的对应值  
 对应代码
 ```html
   // 根据模式设置背景颜色、文字颜色和背景线条
@@ -76,8 +76,8 @@
   }
 ```
 
-2. 如果你想要修改中转页面的标题和描述，请修改
-`public/external-link.html`文件中第83-95行的对应值
+2. 如果你想要修改中转页面的标题和描述，请修改  
+`public/external-link.html`文件中第83-95行的对应值  
 对应代码
 
 ```html
@@ -98,10 +98,10 @@
 
 
 > [!WARNING]
-> 如果不是个人需求，请不要修改Vue代码，否则可能会导致组件失效。
+> 如果不是个人需求，请不要修改Vue代码，否则可能会导致组件失效。  
 > 或者出现重复跳出新标签页的严重Bug
 
 
 ### 问题反馈
 
-如果有任何问题，请提 issue 或者联系作者邮箱 <p><a :href="`mailto:Mete0r_xsc@hotmail.com`">点此联系我</a></p>，或者在网站中进行提问：[https://www.xscnas.top](https://www.xscnas.top)
+如果有任何问题，请提 issue 或者联系作者邮箱 Mete0r_xsc@hotmail.com，或者在网站中进行提问：[https://www.xscnas.top](https://www.xscnas.top)
