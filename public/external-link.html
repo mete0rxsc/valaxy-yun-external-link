@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>外部链接跳转</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #222;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .main-container {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .content-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      padding: 30px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    #external-url {
+      word-break: break-all;
+      display: inline-block;
+      max-width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+
+    #countdown {
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="button-group">
+      <button id="direct-link" class="btn">直接跳转</button>
+      <a href="/" class="btn">返回首页</a>
+    </div>
+    
+    <div class="content-box">
+      <h2>即将跳转到外部网站</h2>
+      <p>您即将访问: <strong id="external-url"></strong></p>
+      <p>将在 <span id="countdown">5</span> 秒后自动跳转...</p>
+    </div>
+  </div>
+
+  <script>
+    // 使用标志位防止重复跳转
+    let hasRedirected = false;
+    let timer;
+
+    function safeRedirect(url) {
+      if (!hasRedirected) {
+        hasRedirected = true;
+        clearInterval(timer);
+        window.location.href = url;
+      }
+    }
+
+    // 获取当前网站域名
+    function getCurrentDomain() {
+      return window.location.hostname.replace('www.', '');
+    }
+
+    // 获取URL的域名
+    function getUrlDomain(url) {
+      try {
+        if (url.startsWith('/')) {
+          url = window.location.origin + url;
+        } else if (url.startsWith('./') || url.startsWith('../')) {
+          url = new URL(url, window.location.href).href;
+        }
+        const domain = new URL(url).hostname.replace('www.', '');
+        return domain;
+      } catch {
+        return null;
+      }
+    }
+
+    // 检查是否是外部链接
+    function isExternalUrl(url) {
+      if (!url || url.startsWith('#') || url.startsWith('javascript:')) {
+        return false;
+      }
+      
+      const currentDomain = getCurrentDomain();
+      const targetDomain = getUrlDomain(url);
+      
+      if (!targetDomain) {
+        return false;
+      }
+      
+      return targetDomain !== currentDomain;
+    }
+
+    // 获取URL参数
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取 URL 参数
+  const urlParam = getQueryParam('url');
+  const mode = getQueryParam('mode');
+
+  if (!urlParam) {
+    window.location.href = '/';
+    return;
+  }
+
+  // 对 Base64 编码的链接进行解码
+  const decodedUrl = atob(urlParam);
+
+  // 检查解码后的链接是否是外部链接
+  if (!isExternalUrl(decodedUrl)) {
+    window.location.href = '/';
+    return;
+  }
+
+  // 根据模式设置背景颜色、文字颜色和背景线条
+  if (mode === 'normal') {
+    document.body.style.backgroundColor = '#FFFFFF'; // 白色背景
+    document.body.style.color = '#000'; // 文字颜色改为黑色
+
+    // 调整按钮样式
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+      button.style.backgroundColor = '#333'; // 深色背景
+      button.style.color = '#FFF'; // 浅色文字
+    });
+
+    // 调整背景线条为灰色
+    document.body.style.backgroundImage = `
+      linear-gradient(rgba(128, 128, 128, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128, 128, 128, 0.1) 1px, transparent 1px)
+    `;
+  } else {
+    document.body.style.backgroundColor = '#222'; // 默认黑色模式背景
+    document.body.style.color = '#FFF'; // 文字颜色改为白色
+
+    // 恢复默认背景线条
+    document.body.style.backgroundImage = `
+      linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+    `;
+  }
+
+  let countdown = 5;
+  const countdownElement = document.getElementById('countdown');
+  const urlElement = document.getElementById('external-url');
+  const directLink = document.getElementById('direct-link');
+
+  // 显示解码后的链接
+  urlElement.textContent = decodedUrl;
+
+  // 使用button替代a标签避免默认行为问题
+  directLink.addEventListener('click', function() {
+    safeRedirect(decodedUrl);
+  });
+
+  // 倒计时功能
+  timer = setInterval(() => {
+    countdown--;
+    countdownElement.textContent = countdown;
+
+    if (countdown <= 0) {
+      safeRedirect(decodedUrl);
+    }
+  }, 1000);
+});
+  </script>
+</body>
+</html>
