@@ -25,6 +25,7 @@
 
 ### Update Content  
 - **v1.1.0 Update** UTC+8 2025-04-15 - ✨ Added a whitelist system. - Correct the file structure in the README file
+- **v1.1.1 Update** UTC+8 2025-04-15 - 🐞 Fixed the issue of direct link redirection in the homepage footer (if the homepage link needs to be whitelisted, please add it yourself)
 
 > [!NOTE]  
 > The `/public/link-whitlist.json` file is the link whitelist file. You can add links to the whitelist here, and they will not be intercepted.  
