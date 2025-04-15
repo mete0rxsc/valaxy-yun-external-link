@@ -1,5 +1,23 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+
+// 读取白名单配置
+const whitelist = ref([]);
+const isWhitelistEnabled = ref(false);
+
+// 加载白名单配置
+const loadWhitelist = async () => {
+  try {
+    const response = await fetch('/link-whitlist.json');
+    const data = await response.json();
+    isWhitelistEnabled.value = data.enable;
+    if (data.links) {
+      whitelist.value = data.links;
+    }
+  } catch (error) {
+    console.error('Failed to load whitelist:', error);
+  }
+};
 
 // 检查是否是外部链接
 const isExternalLink = (href) => {
@@ -38,6 +56,11 @@ const handleExternalClick = (e) => {
 const interceptLinks = () => {
   document.querySelectorAll('a').forEach(link => {
     if (isExternalLink(link.href) && !link.classList.contains('no-intercept')) {
+      // 检查是否在白名单中
+      if (isWhitelistEnabled.value && whitelist.value.includes(link.href)) {
+        return; // 白名单中的链接不拦截
+      }
+
       // 移除已有事件监听器
       link.removeEventListener('click', handleExternalClick);
 
@@ -47,7 +70,8 @@ const interceptLinks = () => {
   });
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await loadWhitelist();
   interceptLinks();
 
   // 监听 DOM 变化，动态拦截新添加的链接

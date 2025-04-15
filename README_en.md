@@ -23,19 +23,52 @@
 > If issues persist, place the `node_modules` folder in the root directory of your Valaxy theme.  
 
 
+### Update Content  
+- **v1.1.0 Update** UTC+8 2025-04-15 - ✨ Added a whitelist system. - Correct the file structure in the README file
+
+> [!NOTE]  
+> The `/public/link-whitlist.json` file is the link whitelist file. You can add links to the whitelist here, and they will not be intercepted.  
+> Code in `link-whitlist.json`:  
+> ```json  
+> {  // Comments are not allowed in JSON files. Do not copy the code here. This field is for informational purposes only.  
+>   "enable": true,  // Whether to enable the whitelist  
+>   "links": [  // Whitelist link entries  
+>    "https://bing.com/",  // Be sure to add "/" at the end of each link, or the whitelist will not work  
+>    "https://example.com/"  
+>  ]  
+> }  
+> ```
+
+
+
 ### Folder Structure  
 
-```  
+```
 /--  
   |-- components/                            # Vue components folder  
     |-- LinkInterceptor.vue                  # Vue component file  
   |-- layouts/                               # Vue layouts folder  
-    |-- post.vue                             # Vue layout file for article pages  
-  |-- node_modules/                          # Node modules folder (use only if errors occur)  
-  |-- README.md                              # Documentation  
-  |-- public                                 # Public resources folder  
+    |-- post.vue                             # Vue layout file for post pages  
+  |-- node_modules/                          # Node modules folder (Do not modify this folder unless there are errors)  
+    |-- valaxy-theme-yun/                    # valaxy-theme-yun theme folder  
+      |-- components/                        # Vue components folder  
+        |-- LinkInterceptor.vue              # Vue component file  
+      |-- layouts/                           # Vue layouts folder  
+        |-- post.vue                         # Vue layout file for post pages  
+  |-- README.md                              # Help documentation (Chinese)  
+  |-- README_en.md                           # English help documentation  
+  |-- public/                                # Public resources folder  
     |-- external-link.html                   # Redirect page HTML file  
+    |-- link-whitlist.json                   # Link whitelist file  
 ```  
+
+Key notes:  
+- Maintained the original code block formatting with backticks (```)  
+- Translated folder/file descriptions naturally while keeping technical terms intact  
+- Preserved special notes like "Do not modify this folder unless there are errors"  
+- Kept all file/directory names and extensions unchanged  
+- Used consistent capitalization (e.g., "Vue components folder" vs "Vue layout file")  
+- Maintained the same comment style with `#` for directory explanations 
 
 ### Customization Suggestions  
 1. To modify the background color of the redirect page, edit:  

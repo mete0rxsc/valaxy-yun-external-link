@@ -26,19 +26,44 @@
 > 将`node_modules`文件放入Valaxy主题根目录内
 
 
+### 更新内容
+- **v1.1.0更新**UTC+8 2025-04-15 更新 - ✨添加白名单系统 - 更正README文件内的文件结构
+
+> [!NOTE]  
+> /public/link-whitlist.json 文件为链接白名单文件，你可以在这里添加链接白名单，白名单内的链接不会被拦截。  
+> link-whitlist.json中的代码  
+> ```json  
+> {  // json文件里不能出现注释，请不要复制这里的代码，此字段仅作为告知使用  
+>   "enable": true,  // 是否启用白名单  
+>   "links": [  // 白名单链接列表  
+>    "https://cn.bing.com/",  // 每个连接后面请务必加上"/"，否则会白名单无效  
+>    "https://example.com/"  
+>  ]  
+> }  
+> ```  
+
+
+
 ### 文件夹结构
 
-```
-/--
-  |-- components/                            # Vue组件文件夹
-    |-- LinkInterceptor.vue                  # Vue组件文件
-  |-- layouts/                               # Vue布局文件夹
-    |-- post.vue                             # 文章发页面的Vue布局文件
-  |-- node_modules/                          # Node模块文件夹（如果无报错请不要使用这个文件）
-  |-- README.md                              # 帮助文档
-  |-- public                                 # 公共资源文件夹
-    |-- external-link.html                   # 中转页面的Html文件
-```
+```  
+/--  
+  |-- components/                            # Vue组件文件夹  
+    |-- LinkInterceptor.vue                  # Vue组件文件  
+  |-- layouts/                               # Vue布局文件夹  
+    |-- post.vue                             # 文章发页面的Vue布局文件  
+  |-- node_modules/                          # Node模块文件夹（如果无报错请不要使用这个文件）  
+    |--valaxy-theme-yun/                     # valaxy-theme-yun主题文件夹  
+      |-- components/                        # Vue组件文件夹  
+        |-- LinkInterceptor.vue              # Vue组件文件  
+      |-- layouts/                           # Vue布局文件夹  
+        |-- post.vue                         # 文章发页面的Vue布局文件  
+  |-- README.md                              # 帮助文档  
+  |-- README_en.md                           # English help document  
+  |-- public                                 # 公共资源文件夹  
+    |-- external-link.html                   # 中转页面的Html文件  
+    |-- link-whitlist.json                   # 链接白名单文件  
+```  
 
 ### 修改建议
 
