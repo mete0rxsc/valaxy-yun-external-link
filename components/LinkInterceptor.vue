@@ -1,8 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import { onUnmounted } from 'vue';
 
 // 读取白名单配置
 const whitelist = ref([]);
+const domainWhitelist = ref([]);
 const isWhitelistEnabled = ref(false);
 
 // 加载白名单配置
@@ -13,6 +15,9 @@ const loadWhitelist = async () => {
     isWhitelistEnabled.value = data.enable;
     if (data.links) {
       whitelist.value = data.links;
+    }
+    if (data.domain) {
+      domainWhitelist.value = data.domain;
     }
   } catch (error) {
     console.error('Failed to load whitelist:', error);
@@ -30,6 +35,19 @@ const isExternalLink = (href) => {
 
     const domain = (url) => new URL(url).hostname.replace('www.', '');
     return domain(window.location.href) !== domain(href);
+  } catch {
+    return false;
+  }
+};
+
+// 检查是否在域名白名单中
+const isDomainWhitelisted = (href) => {
+  try {
+    const domain = new URL(href).hostname.replace('www.', '');
+    return domainWhitelist.value.some(domainUrl => {
+      const whitelistDomain = new URL(domainUrl).hostname.replace('www.', '');
+      return domain === whitelistDomain;
+    });
   } catch {
     return false;
   }
@@ -57,14 +75,17 @@ const interceptLinks = () => {
   document.querySelectorAll('a').forEach(link => {
     if (isExternalLink(link.href) && !link.classList.contains('no-intercept')) {
       // 检查是否在白名单中
-      if (isWhitelistEnabled.value && whitelist.value.includes(link.href)) {
+      if (isWhitelistEnabled.value && (whitelist.value.includes(link.href) || isDomainWhitelisted(link.href))) {
         return; // 白名单中的链接不拦截
       }
 
-      // 移除已有事件监听器
-      link.removeEventListener('click', handleExternalClick);
+      // 如果已经绑定过事件监听器，则跳过
+      if (link.dataset.intercepted) return;
 
-      // 绑定新事件
+      // 标记链接已被拦截
+      link.dataset.intercepted = true;
+
+      // 绑定事件
       link.addEventListener('click', handleExternalClick);
     }
   });
@@ -78,9 +99,18 @@ onMounted(async () => {
   let debounceTimer;
   const observer = new MutationObserver(() => {
     clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => interceptLinks(), 100); // 100ms 防抖
+    debounceTimer = setTimeout(() => interceptLinks(), 100); // 调整为 100ms
   });
   observer.observe(document.body, { childList: true, subtree: true });
+});
+
+onUnmounted(() => {
+  document.querySelectorAll('a').forEach(link => {
+    if (link.dataset.intercepted) {
+      link.removeEventListener('click', handleExternalClick);
+      delete link.dataset.intercepted; // 清除标记
+    }
+  });
 });
 </script>
 

@@ -3,5 +3,8 @@
   "links": [
     "https://cn.bing.com/",
     "https://example.com/"
+  ],
+  "domain": [
+    "https://github.com"
   ]
 }

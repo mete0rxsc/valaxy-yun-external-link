@@ -23,22 +23,26 @@
 > If issues persist, place the `node_modules` folder in the root directory of your Valaxy theme.  
 
 
-### Update Content  
-- **v1.1.0 Update** UTC+8 2025-04-15 - ✨ Added a whitelist system. - Correct the file structure in the README file
-- **v1.1.1 Update** UTC+8 2025-04-15 - 🐞 Fixed the issue of direct link redirection in the homepage footer (if the homepage link needs to be whitelisted, please add it yourself)
+### Updated Content
+- **v1.1.0 Update** UTC+8 2025-04-15 - ✨ Added whitelist system - Corrected file structure in README  
+- **v1.1.1 Update** UTC+8 2025-04-15 - 🐞 Fixed direct link redirection issue in homepage footer (If homepage links require whitelisting, please add them manually)  
+- **v1.1.2 Update** UTC+8 2025-04-16 - 🐞 Fixed a bug where returning to the homepage from an article page and then going back to the article page caused Vue duplicate binding, resulting in multiple pop-ups  
 
 > [!NOTE]  
-> The `/public/link-whitlist.json` file is the link whitelist file. You can add links to the whitelist here, and they will not be intercepted.  
+> The `/public/link-whitlist.json` file is the link whitelist configuration. You can add whitelisted links here, which will not be intercepted.  
 > Code in `link-whitlist.json`:  
 > ```json  
-> {  // Comments are not allowed in JSON files. Do not copy the code here. This field is for informational purposes only.  
+> {  // Comments are not allowed in JSON files. Do not copy this code—this note is for reference only.  
 >   "enable": true,  // Whether to enable the whitelist  
->   "links": [  // Whitelist link entries  
->    "https://bing.com/",  // Be sure to add "/" at the end of each link, or the whitelist will not work  
+>   "links": [  // Whitelisted links (exact matches)  
+>    "https://cn.bing.com/",  // This is a link whitelist; subpaths are not ignored. Provide full URLs.  
 >    "https://example.com/"  
->  ]  
+>   ],  
+>   "domain": [  // Domain whitelist (subpaths are ignored for these entries)  
+>    "https://github.com"  
+>   ]  
 > }  
-> ```
+> ```  
 
 
 
